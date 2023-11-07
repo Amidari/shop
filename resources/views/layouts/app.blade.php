@@ -43,9 +43,9 @@
 
 
 @vite('resources/js/app.js')
-<div id="app">
+<div id="app"></div>
 
-</div>
+
 </body>
 
 </html>
@@ -66,3 +66,4 @@
 <script src="{{asset('assets/js/plugin/jquery.countdown.min.js')}}"></script>
 <script src="{{asset('assets/js/main.js')}}"></script>
 <!--==== Js Scripts End ====-->
+
