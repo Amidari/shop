@@ -13,9 +13,10 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::get('/', App\Http\Controllers\Main\IndexController::class)->name('main.index');
+Route::get('/', fn()=>view('layouts.app'));
 
 Route::group(['prefix' => 'admin'], function (){
+    Route::get('/', App\Http\Controllers\Main\IndexController::class)->name('main.index');
     Route::resources([
         'category' => \App\Http\Controllers\Category\CategoryController::class,
         'teg' => \App\Http\Controllers\Teg\TegController::class,
