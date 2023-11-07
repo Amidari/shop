@@ -9,7 +9,10 @@ SecondPage
 
 <script>
 export default {
-    name: "Second"
+    name: "Second",
+    mounted() {
+        $(document).trigger('change')
+    }
 }
 </script>
 

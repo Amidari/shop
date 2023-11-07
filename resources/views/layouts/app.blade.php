@@ -48,7 +48,7 @@
 
 </body>
 
-</html>
+
 
 <!-- Jquery v3.6.0 Js -->
 
@@ -66,4 +66,4 @@
 <script src="{{asset('assets/js/plugin/jquery.countdown.min.js')}}"></script>
 <script src="{{asset('assets/js/main.js')}}"></script>
 <!--==== Js Scripts End ====-->
-
+</html>
