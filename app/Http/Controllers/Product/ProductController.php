@@ -3,8 +3,8 @@
 namespace App\Http\Controllers\Product;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Producr\StoreRequest;
-use App\Http\Requests\Producr\UpdateRequest;
+use App\Http\Requests\Product\IndexRequest;
+use App\Http\Requests\Product\UpdateRequest;
 use App\Models\Category;
 use App\Models\Color;
 use App\Models\ColorProduct;
@@ -43,7 +43,7 @@ class ProductController extends Controller
     /**
      * Store a newly created resource in storage.
      */
-    public function store(StoreRequest $request)
+    public function store(IndexRequest $request)
     {
 
         $data = $request->validated();
