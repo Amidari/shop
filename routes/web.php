@@ -22,6 +22,7 @@ Route::group(['prefix' => 'admin'], function (){
         'color' => \App\Http\Controllers\Color\ColorController::class,
         'user' => \App\Http\Controllers\User\UserController::class,
         'product' => \App\Http\Controllers\Product\ProductController::class,
+        'group' => \App\Http\Controllers\Group\GroupController::class,
     ]);
 });
 Route::get('/',fn()=>view('layouts.app'));

@@ -7,11 +7,11 @@
         <div class="container-fluid">
             <div class="row mb-2">
                 <div class="col-sm-6">
-                    <h1 class="m-0">Продукты</h1>
+                    <h1 class="m-0">Группы</h1>
                 </div><!-- /.col -->
                 <div class="col-sm-6">
                     <ol class="breadcrumb float-sm-right">
-                        <li class="breadcrumb-item active">Продукты</li>
+                        <li class="breadcrumb-item active">Группы</li>
                     </ol>
                 </div><!-- /.col -->
             </div><!-- /.row -->
@@ -27,7 +27,7 @@
                 <div class="col-12">
                     <div class="card">
                         <div class="card-header">
-                            <a href="{{route('product.create')}}" class="btn btn-primary">Добавить</a>
+                            <a href="{{route('group.create')}}" class="btn btn-primary">Добавить</a>
                         </div>
                         <!-- /.card-header -->
                         <div class="card-body table-responsive p-0">
@@ -36,26 +36,13 @@
                                 <tr>
                                     <th>ID</th>
                                     <th>Наименование</th>
-                                    <th>Опсание</th>
-                                    <th>Контент</th>
-                                    <th>Группа</th>
-                                    <th>Цена</th>
-                                    <th>Остаток</th>
-                                    <th>Статус публикации</th>
-
                                 </tr>
                                 </thead>
                                 <tbody>
-                                @foreach($products as $product)
+                                @foreach($groups as $group)
                                 <tr>
-                                    <td>{{$product->id}}</td>
-                                    <td><a href="{{route('product.show', $product->id)}}">{{$product->title}}</a></td>
-                                    <td>{{$product->description}}</td>
-                                    <td>{{$product->content}}</td>
-                                    <td>{{$product->group}}</td>
-                                    <td>{{$product->price}}</td>
-                                    <td>{{$product->count}}</td>
-                                    <td>@if($product->is_published) Опутбиковано @else Не опубликовано @endif</td>
+                                    <td>{{$group->id}}</td>
+                                    <td><a href="{{route('group.show', $group->id)}}">{{$group->title}}</a></td>
                                 </tr>
                                 @endforeach
                                 </tbody>
