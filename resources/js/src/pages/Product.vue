@@ -317,18 +317,56 @@
                                 </div>
                             </div>
                         </div>
+<!--                        <div class="row">-->
+<!--                            <div class="col-12 d-flex justify-content-center wow fadeInUp animated">-->
+<!--                                <ul class="pagination text-center">-->
+<!--                                    <li class="next"><a href="#0"><i class="flaticon-left-arrows"-->
+<!--                                                                     aria-hidden="true"></i> </a></li>-->
+<!--                                    <li><a href="#0">1</a></li>-->
+<!--                                    <li><a href="#0" class="active">2</a></li>-->
+<!--                                    <li><a href="#0">3</a></li>-->
+<!--                                    <li><a href="#0">...</a></li>-->
+<!--                                    <li><a href="#0">10</a></li>-->
+<!--                                    <li class="next"><a href="#0"><i class="flaticon-next-1"-->
+<!--                                                                     aria-hidden="true"></i> </a></li>-->
+<!--                                </ul>-->
+<!--                            </div>-->
+<!--                        </div>-->
                         <div class="row">
                             <div class="col-12 d-flex justify-content-center wow fadeInUp animated">
                                 <ul class="pagination text-center">
-                                    <li class="next"><a href="#0"><i class="flaticon-left-arrows"
-                                                                     aria-hidden="true"></i> </a></li>
-                                    <li><a href="#0">1</a></li>
-                                    <li><a href="#0" class="active">2</a></li>
-                                    <li><a href="#0">3</a></li>
-                                    <li><a href="#0">...</a></li>
-                                    <li><a href="#0">10</a></li>
-                                    <li class="next"><a href="#0"><i class="flaticon-next-1"
-                                                                     aria-hidden="true"></i> </a></li>
+                                    <li v-if="pagination.current_page !==1" class="page-item">
+                                        <a @click.prevent="getProducts(pagination.current_page-1)" class="page-link"
+                                           href="#" aria-label="Previous">
+                                            <span aria-hidden="true">&laquo;</span>
+                                            <span class="sr-only">Previous</span>
+                                        </a>
+                                    </li>
+                                    <li v-for="link in pagination.links" class="page-item">
+                                        <template v-if="Number(link.label) &&
+                                                (pagination.current_page - link.label < 2 &&
+                                                pagination.current_page - link.label > -2) ||
+                                                Number(link.label)===1 || Number(link.label)===pagination.last_page">
+                                            <a @click.prevent="getProducts(link.label)" :class="link.active? 'active': ''"
+                                               class="page-link"
+                                               href="#">{{ link.label }}</a>
+                                        </template>
+                                        <template v-if="Number(link.label) &&
+                                            pagination.current_page!==3 &&
+                                            (pagination.current_page - link.label === 2) ||
+                                            Number(link.label) &&
+                                            pagination.current_page!==pagination.last_page - 2 &&
+                                            (pagination.current_page - link.label === -2)">
+                                            <a>...</a>
+                                        </template>
+                                    </li>
+                                    <li v-if="pagination.current_page !== pagination.last_page" class="page-item">
+                                        <a @click.prevent="getProducts(pagination.current_page+1)" class="page-link"
+                                           href="#" aria-label="Next">
+                                            <span aria-hidden="true">&raquo;</span>
+                                            <span class="sr-only">Next</span>
+                                        </a>
+                                    </li>
                                 </ul>
                             </div>
                         </div>
@@ -359,27 +397,14 @@ export default {
             colors:[],
             tags:[],
             prices:[],
+            pagination:[],
         }
     },
     methods: {
         filterProducts(){
             let prices = $('#priceRange').val()
             this.prices = prices.replace(/[\s+]|[$]/g, '').split('-')
-
-            axios.post('/api/product', {
-                'categories': this.categories,
-                'colors': this.colors,
-                'tags': this.tags,
-                'prices': this.prices,
-            })
-                .then(res => {
-                    this.products = res.data.data
-                    // console.log(res);
-
-                })
-                .finally( v=> {
-                    $(document).trigger('changed')
-                })
+            this.getProducts()
         },
         addTag(id)
         {
@@ -401,10 +426,17 @@ export default {
                 })
             }
         },
-        getProducts(){
-            axios.post('/api/product')
+        getProducts(page=1){
+            axios.post('/api/product', {
+                'categories': this.categories,
+                'colors': this.colors,
+                'tags': this.tags,
+                'prices': this.prices,
+                'page': page,
+            })
                 .then(res => {
                     this.products = res.data.data
+                    this.pagination = res.data.meta
                     // console.log(res);
 
                 })
