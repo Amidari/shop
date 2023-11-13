@@ -201,8 +201,8 @@
                                                     </a>
                                                         <div class="products-grid-one__badge-box"> <span
                                                             class="bg_base badge new ">New</span>
-                                                        </div> <a href="cart.html" class="addcart btn--primary style2">
-                                                            Add To Cart </a>
+                                                        </div> <a @click.prevent="addToCart(product.id, true)" href="cart.html" class="addcart btn--primary style2">
+                                                            Добавить в корину </a>
                                                         <div class="products-grid__usefull-links">
                                                             <ul>
                                                                 <li><a href="wishlist.html"> <i class="flaticon-heart">
@@ -283,8 +283,7 @@
                                                                                     <span class="increaseQty"> <i
                                                                                         class="flaticon-plus"></i>
                                                                                     </span> </div>
-                                                                                <button class="btn--primary "> Add to
-                                                                                    Cart </button>
+                                                                                <button @click.prevent="addToCart(popupProduct.id)" class="btn--primary "> Добавить в корзину </button>
                                                                             </div>
                                                                         </div>
                                                                         <div class="payment-method"> <a href="#0"> <img
@@ -317,21 +316,7 @@
                                 </div>
                             </div>
                         </div>
-<!--                        <div class="row">-->
-<!--                            <div class="col-12 d-flex justify-content-center wow fadeInUp animated">-->
-<!--                                <ul class="pagination text-center">-->
-<!--                                    <li class="next"><a href="#0"><i class="flaticon-left-arrows"-->
-<!--                                                                     aria-hidden="true"></i> </a></li>-->
-<!--                                    <li><a href="#0">1</a></li>-->
-<!--                                    <li><a href="#0" class="active">2</a></li>-->
-<!--                                    <li><a href="#0">3</a></li>-->
-<!--                                    <li><a href="#0">...</a></li>-->
-<!--                                    <li><a href="#0">10</a></li>-->
-<!--                                    <li class="next"><a href="#0"><i class="flaticon-next-1"-->
-<!--                                                                     aria-hidden="true"></i> </a></li>-->
-<!--                                </ul>-->
-<!--                            </div>-->
-<!--                        </div>-->
+<!--                        Paginate-->
                         <div class="row">
                             <div class="col-12 d-flex justify-content-center wow fadeInUp animated">
                                 <ul class="pagination text-center">
@@ -401,6 +386,35 @@ export default {
         }
     },
     methods: {
+        addToCart(id, isSingle){
+            let qty = isSingle ? 1 : $('.qtyValue').val()
+            let cart = localStorage.getItem('cart')
+            $('.qtyValue').val(1)
+            let newProduct = [
+                {
+                    'id': id,
+                    'qty': qty
+                }
+            ]
+
+            if(!cart){
+                localStorage.setItem('cart', JSON.stringify(newProduct));
+            } else {
+                cart = JSON.parse(cart)
+
+                cart.forEach(productInCart => {
+                    if(productInCart.id === id){
+                        productInCart.qty = Number(productInCart.qty) + Number(qty)
+                        newProduct = null
+                    }
+
+                })
+
+                Array.prototype.push.apply(cart, newProduct)
+                localStorage.setItem('cart', JSON.stringify(cart))
+            }
+
+        },
         filterProducts(){
             let prices = $('#priceRange').val()
             this.prices = prices.replace(/[\s+]|[$]/g, '').split('-')
